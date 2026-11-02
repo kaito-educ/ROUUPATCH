@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#09090d" />
+  <title>ROUUPATCH — TikTok Uploader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <section class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <a class="brand login-brand" href="/"><span class="brand-mark">R</span><span>ROUU<span class="brand-light">PATCH</span><small>CREATOR STUDIO</small></span></a>
+      <div class="eyebrow"><span class="eyebrow-line"></span> TIKTOK CREATOR TOOLS</div>
+      <h1>Login with <span>Zernio.</span></h1>
+      <p class="login-subtitle">Connect your Zernio API key to open your TikTok uploader workspace.</p>
+      <form id="loginForm" class="login-form">
+        <label for="apiKeyInput">Your Zernio API key</label>
+        <div class="key-input-wrap"><input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="sk_••••••••••••••••••••" required /><button type="button" id="toggleKey" class="key-toggle">SHOW</button></div>
+        <button class="login-button" id="loginButton" type="submit"><span>Login</span><span>↗</span></button>
+        <div class="login-error hidden" id="loginError" role="alert"></div>
+      </form>
+      <p class="login-help">Key from <a href="https://zernio.com/dashboard/api-keys" target="_blank" rel="noreferrer">Zernio dashboard ↗</a>. Connect a TikTok account there to publish.</p>
+      <div class="login-security"><span>⌑</span> Your key is sent securely to this server and is not saved in browser storage.</div>
+      <div class="login-footer">ROUUPATCH <span>POWERED BY ZERNIO</span></div>
+    </div>
+  </section>
+  <div class="app-shell hidden" id="appShell">
+    <aside class="sidebar">
+      <a class="brand" href="/">
+        <span class="brand-mark">R</span>
+        <span>ROUU<span class="brand-light">PATCH</span><small>CREATOR STUDIO</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <a class="nav-item active" href="#"><span class="nav-icon">↥</span> Video uploader</a>
+      <div class="side-label second-label">PLATFORM</div>
+      <div class="platform-pill"><span class="tiktok-mark">♪</span><span>TikTok</span><span class="live-dot"></span></div>
+      <div class="sidebar-bottom">
+        <div class="api-card">
+          <div class="api-card-top"><span class="status-dot" id="apiDot"></span><span id="apiStatus">Checking API</span></div>
+          <p>Publishing powered by Zernio</p>
+          <a href="https://docs.zernio.com/platforms/tiktok" target="_blank" rel="noreferrer">API documentation ↗</a>
+        </div>
+        <div class="sidebar-foot">ROUUPATCH <span id="profileLabel">ZERNIO PROFILE</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">R</span> ROUUPATCH</div>
+        <div class="topbar-right">
+          <span class="secure-label"><span class="status-dot"></span> SECURE CONNECTION</span>
+          <button class="logout-button" id="logoutButton">Sign out</button>
+          <button class="account-button" id="connectButton"><span class="tiktok-mark">♪</span> Connect TikTok</button>
+        </div>
+      </header>
+
+      <section class="page-heading">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> CREATOR WORKSPACE</div>
+          <h1>Video <span>Uploader.</span></h1>
+          <p class="subtitle">Prepare your video. Review your settings. Publish to TikTok.</p>
+        </div>
+        <div class="heading-tag"><span class="live-dot"></span> TIKTOK ONLY</div>
+      </section>
+
+      <div class="notice hidden" id="notice" role="status"></div>
+
+      <section class="workspace">
+        <div class="composer-column">
+          <div class="section-heading"><div><span class="step-number">01</span><h2>Upload your video</h2></div><span class="section-hint">MP4 · MOV · WEBM</span></div>
+          <div class="upload-card" id="dropZone">
+            <input id="videoInput" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm" hidden />
+            <div class="upload-empty" id="uploadEmpty">
+              <div class="upload-icon"><span>↑</span></div>
+              <h3>Drop your video here</h3>
+              <p>or <button class="text-button" id="browseButton">browse files</button> from your device</p>
+              <div class="upload-specs"><span>VIDEO FILE</span><i></i><span>UP TO 4 GB</span><i></i><span>3 SEC – 10 MIN</span></div>
+            </div>
+            <div class="video-preview hidden" id="videoPreview">
+              <video id="previewPlayer" controls playsinline></video>
+              <div class="video-meta">
+                <div class="video-file-icon">▶</div>
+                <div class="video-file-text"><strong id="fileName">video.mp4</strong><span id="fileDetails">Video details</span></div>
+                <button class="icon-button" id="removeVideo" aria-label="Remove video">×</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-heading caption-heading"><div><span class="step-number">02</span><h2>Write your caption</h2></div><span class="counter" id="captionCount">0 / 2,200</span></div>
+          <div class="caption-card">
+            <textarea id="caption" maxlength="2200" placeholder="Write a caption for your video...&#10;&#10;Add hashtags to help people discover your content."></textarea>
+            <div class="caption-tools"><span>Make it yours. Keep it authentic.</span><button class="text-button" id="hashtagButton">＋ Add hashtag</button></div>
+          </div>
+
+          <div class="section-heading settings-heading"><div><span class="step-number">03</span><h2>Publishing settings</h2></div></div>
+          <div class="settings-card">
+            <div class="setting-row privacy-row">
+              <div><strong>Who can watch this video</strong><small>Choose an option allowed by your TikTok account.</small></div>
+              <select id="privacySelect" disabled><option>Connect an account first</option></select>
+            </div>
+            <div class="setting-divider"></div>
+            <div class="toggle-row"><div><strong>Allow comments</strong><small>Let viewers comment on your video.</small></div><label class="switch"><input type="checkbox" id="allowComment" checked><span></span></label></div>
+            <div class="setting-divider"></div>
+            <div class="toggle-row"><div><strong>Allow Duet</strong><small>Let others create a Duet with your video.</small></div><label class="switch"><input type="checkbox" id="allowDuet" checked><span></span></label></div>
+            <div class="setting-divider"></div>
+            <div class="toggle-row"><div><strong>Allow Stitch</strong><small>Let others use part of your video in a Stitch.</small></div><label class="switch"><input type="checkbox" id="allowStitch" checked><span></span></label></div>
+          </div>
+
+          <div class="consent-card">
+            <label class="consent-line"><input type="checkbox" id="previewConsent"><span>I confirm that I have reviewed the video preview and caption.</span></label>
+            <label class="consent-line"><input type="checkbox" id="expressConsent"><span>I give express consent to publish this content to my connected TikTok account.</span></label>
+            <p>TikTok requires these confirmations for API publishing. Your video will be published using the selected account and privacy setting.</p>
+          </div>
+          <button class="publish-button" id="publishButton" disabled><span>Publish to TikTok</span><span class="publish-arrow">↗</span></button>
+          <div class="publish-footnote"><span class="lock-icon">⌑</span> Your Zernio API key stays on the server. It is never sent to the browser.</div>
+        </div>
+
+        <aside class="right-column">
+          <div class="account-card">
+            <div class="card-topline"><span>CONNECTED ACCOUNT</span><span class="live-dot"></span></div>
+            <div class="account-empty" id="accountEmpty">
+              <div class="account-avatar">♪</div>
+              <strong>No account connected</strong>
+              <p>Connect your TikTok account to start publishing.</p>
+              <button class="outline-button" id="connectButtonSecondary">Connect account <span>↗</span></button>
+            </div>
+            <div class="account-connected hidden" id="accountConnected">
+              <div class="account-avatar connected-avatar">♪</div>
+              <div><strong id="accountName">@tiktok</strong><p>Connected via Zernio</p></div>
+              <span class="connected-check">✓</span>
+            </div>
+          </div>
+
+          <div class="publish-info-card">
+            <div class="info-icon">✳</div>
+            <h3>Before you publish</h3>
+            <ul>
+              <li><span>01</span> Check your video and caption.</li>
+              <li><span>02</span> Choose your audience.</li>
+              <li><span>03</span> Confirm publishing consent.</li>
+            </ul>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-title"><strong>Publishing activity</strong><span class="activity-live">LIVE</span></div>
+            <div id="activityEmpty" class="activity-empty"><span class="activity-symbol">◷</span><p>Your publishing activity will appear here.</p></div>
+            <div id="activityResult" class="activity-result hidden"></div>
+          </div>
+
+          <div class="powered-by"><span class="powered-line"></span><span>POWERED BY <b>ZEN ROU</b></span><span class="powered-line"></span></div>
+        </aside>
+      </section>
+      <footer>© 2026 ROUUPATCH STUDIO <span>BUILT FOR CREATORS</span></footer>
+    </main>
+  </div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
